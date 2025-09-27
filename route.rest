@@ -1,0 +1,15 @@
+// LOCALHOST
+### Get all contacts
+GET http://localhost:8080/contacts
+
+### Get a contact by ID
+GET http://localhost:8080/contacts/68d778b7dcb5ca97997ac4e4
+
+
+// PRODUCTION 
+### Get all contacts
+GET https://three41-project-bzcd.onrender.com/contacts
+
+### Get a contact by ID
+GET https://three41-project-bzcd.onrender.com/contacts/68d77a50dcb5ca97997ac4f5
+
