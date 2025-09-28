@@ -3,13 +3,70 @@
 GET http://localhost:8080/contacts
 
 ### Get a contact by ID
-GET http://localhost:8080/contacts/68d778b7dcb5ca97997ac4e4
+GET http://localhost:8080/contacts/68d8758591f7b3ca642ce724
+
+
+### Add a new contact  - POST
+POST http://localhost:8080/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Lauren",
+  "lastName": "Ezenwa",
+  "email": "laurenezenwa@example.com",
+  "favoriteColor": "Orange",
+  "birthday": "10/20/1992"
+}
+
+### Update a contact - PUT
+PUT http://localhost:8080/contacts/68d8758591f7b3ca642ce724
+Content-Type: application/json
+
+{
+  "firstName": "Lauren",
+  "lastName": "Ezenwa",
+  "email": "laurenezenwa@yahoo.com",
+  "favoriteColor": "Orange",
+  "birthday": "10/20/1992"
+}
+
+### Delete a contact
+DELETE http://localhost:8080/contacts/68d8758591f7b3ca642ce724
+Content-Type: application/json
+
 
 
 // PRODUCTION 
-### Get all contacts
+### Get all contacts - GET ALL
 GET https://three41-project-bzcd.onrender.com/contacts
 
-### Get a contact by ID
+### Get a contact by ID - GET SINGLE
 GET https://three41-project-bzcd.onrender.com/contacts/68d77a50dcb5ca97997ac4f5
 
+### Add a new contact  - POST
+POST https://three41-project-bzcd.onrender.com/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Ada",
+  "lastName": "Eze",
+  "email": "adaeze@example.com",
+  "favoriteColor": "Blue",
+  "birthday": "1990-07-20"
+}
+
+### Update a contact - PUT
+PUT https://three41-project-bzcd.onrender.com/contacts/68d77a50dcb5ca97997ac4f5
+Content-Type: application/json
+
+{
+  "firstName": "Ada",
+  "lastName": "Okoro",
+  "email": "adaokoro@example.com",
+  "favoriteColor": "Green",
+  "birthday": "1990-07-20"
+}
+
+### Delete a contact
+DELETE https://three41-project-bzcd.onrender.com/contacts/68d77a50dcb5ca97997ac4f5
+Content-Type: application/json
