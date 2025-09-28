@@ -3,8 +3,6 @@ const swaggerAutogen = require('swagger-autogen')();
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 
-//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-
 // Export a function that accepts `app`
 module.exports = function (app) {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
@@ -15,8 +13,8 @@ module.exports = function (app) {
     title: 'Contacts API',
     description: 'Auto-generated Swagger documentation for Contacts API',
   },
-  host: 'https://three41-project-bzcd.onrender.com',
-  schemes: ['https', 'http'],
+  host: 'three41-project-bzcd.onrender.com',
+  schemes: ['https'],
   definitions: {
     Contact: {
       $firstName: 'Jane',
@@ -26,8 +24,8 @@ module.exports = function (app) {
       birthday: '1990-01-01'
     }
   },
-  //host: 'https://three41-project-bzcd.onrender.com', // Change to Render URL when deploying to Production(dev: localhost:8080; production:https://three41-project-bzcd.onrender.com)
-  //schemes: ['https','http'], // Use 'https' in Production on Render
+  //host: 'three41-project-bzcd.onrender.com', // Change to Render URL when deploying to Production(dev: localhost:8080; production:https://three41-project-bzcd.onrender.com)
+  //schemes: ['https'], // Use 'https' in Production on Render
 };
 
 const outputFile = './swagger-output.json'; // Output file

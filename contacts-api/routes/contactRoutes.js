@@ -2,26 +2,8 @@ const express = require('express');
 const router = express.Router();
 const contactController = require('../controllers/contactController');
 
-// Add Swagger docs
-
-/**
- * @swagger
- * /contacts:
- *   get:
- *     summary: Returns the list of all contacts
- *     tags: [Contacts]
- *     responses:
- *       200:
- *         description: The list of contacts
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Contact'
- */
-
 // Routes
+// Add Swagger docs
 
 /**
  * @swagger
@@ -54,7 +36,6 @@ router.get('/', contactController.getContacts);
 router.get('/:id', contactController.getContactById);
 
 // Add similar comments for POST, PUT, DELETE
-//router.post('/', contactController.createContact);
 
 /**
  * @swagger
@@ -64,38 +45,41 @@ router.get('/:id', contactController.getContactById);
  *     tags:
  *       - Contacts
  *     description: Create a new contact
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - firstName
- *               - lastName
- *               - email
- *               - favoriteColor
- *               - birthday
- *             properties:
- *               firstName:
- *                 type: string
- *                 example: Jane
- *               lastName:
- *                 type: string
- *                 example: Doe
- *               email:
- *                 type: string
- *                 example: jane.doe@example.com
- *               favoriteColor:
- *                 type: string
- *                 example: Blue
- *               birthday:
- *                 type: string
- *                 format: date
- *                 example: 1990-01-01
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - in: body
+ *         name: contact
+ *         description: The contact to create
+ *         required: true
+ *         schema:
+ *           type: object
+ *           required:
+ *             - firstName
+ *             - lastName
+ *             - email
+ *             - favoriteColor
+ *             - birthday
+ *           properties:
+ *             firstName:
+ *               type: string
+ *               example: Jane
+ *             lastName:
+ *               type: string
+ *               example: Doe
+ *             email:
+ *               type: string
+ *               example: jane.doe@example.com
+ *             favoriteColor:
+ *               type: string
+ *               example: Blue
+ *             birthday:
+ *               type: string
+ *               format: date
+ *               example: 1990-01-01
  *     responses:
  *       201:
- *         description: Contact created
+ *         description: Contact created successfully
  *       400:
  *         description: Invalid input
  */
