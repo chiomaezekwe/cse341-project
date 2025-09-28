@@ -83,6 +83,7 @@ router.get('/:id', contactController.getContactById);
  *       400:
  *         description: Invalid input
  */
+
 router.post('/', contactController.addContact);
 
 /**

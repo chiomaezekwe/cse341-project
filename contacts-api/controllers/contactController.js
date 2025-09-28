@@ -21,7 +21,7 @@ exports.getContactById = async (req, res) => {
   }
 };
 
-// ADD:- create new contact
+// POST:- add/create a new contact
 exports.addContact = async (req, res) => {
   try {
     const newContact = new Contact(req.body);

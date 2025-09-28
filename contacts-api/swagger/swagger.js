@@ -1,4 +1,3 @@
-
 const swaggerAutogen = require('swagger-autogen')();
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
@@ -13,8 +12,9 @@ module.exports = function (app) {
     title: 'Contacts API',
     description: 'Auto-generated Swagger documentation for Contacts API',
   },
-  host: 'three41-project-bzcd.onrender.com',
-  schemes: ['https'],
+  host: 'three41-project-bzcd.onrender.com', // Change to Render URL "three41-project-bzcd.onrender.com" when deploying to Production, and on dev, use "localhost:8080". 
+  schemes: ['https'], // Use "https" in Production on Render and "http" in dev 
+
   definitions: {
     Contact: {
       $firstName: 'Jane',
@@ -24,12 +24,10 @@ module.exports = function (app) {
       birthday: '1990-01-01'
     }
   },
-  //host: 'three41-project-bzcd.onrender.com', // Change to Render URL when deploying to Production(dev: localhost:8080; production:https://three41-project-bzcd.onrender.com)
-  //schemes: ['https'], // Use 'https' in Production on Render
 };
 
-const outputFile = './swagger-output.json'; // Output file
+
+const outputFile = './swagger/swagger-output.json'; // Output file
 const endpointsFiles = ['./server.js'];      // Entry point to scan for routes
 
 swaggerAutogen(outputFile, endpointsFiles, doc);
-

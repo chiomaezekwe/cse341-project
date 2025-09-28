@@ -1,5 +1,8 @@
 require('dotenv').config();
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger/swagger-output.json');
+
 const cors = require('cors'); // Imports CORS
 const contactRoutes = require('./routes/contactRoutes');
 const mongoose = require('./config/db'); // connection to MongoDB;
@@ -13,12 +16,17 @@ app.use(cors()); //Enables CORS
 app.use(express.json());
 
 
+// Swagger UI route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
+
 // Routes
 
 /*app.get('/', (req, res) => {
   res.send('Server is working!');
 }); //for test to know if the server is working
 */
+
 
 app.use('/contacts', contactRoutes);
 
@@ -29,3 +37,5 @@ setupSwagger(app);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
