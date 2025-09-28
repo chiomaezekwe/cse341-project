@@ -5,10 +5,10 @@
     "description": "Auto-generated Swagger documentation for Contacts API",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "three41-project-bzcd.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/contacts/": {
