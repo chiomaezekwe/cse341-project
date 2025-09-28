@@ -1,27 +1,37 @@
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
 
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Contacts API',
-      version: '1.0.0',
-      description: 'API for managing contacts',
-    },
-    servers: [
-      {
-        url: 'http://localhost:8080',
-      },
-    ],
-  },
-  apis: ['./routes/*.js'],
+const swaggerAutogen = require('swagger-autogen')();
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
+
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
+// Export a function that accepts `app`
+module.exports = function (app) {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 };
 
-const specs = swaggerJsdoc(options);
+  const doc = {
+  info: {
+    title: 'Contacts API',
+    description: 'Auto-generated Swagger documentation for Contacts API',
+  },
+  host: 'https://three41-project-bzcd.onrender.com',
+  schemes: ['https', 'http'],
+  definitions: {
+    Contact: {
+      $firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jane.doe@example.com',
+      favoriteColor: 'Blue',
+      birthday: '1990-01-01'
+    }
+  },
+  //host: 'https://three41-project-bzcd.onrender.com', // Change to Render URL when deploying to Production(dev: localhost:8080; production:https://three41-project-bzcd.onrender.com)
+  //schemes: ['https','http'], // Use 'https' in Production on Render
+};
 
-function setupSwagger(app) {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-}
+const outputFile = './swagger-output.json'; // Output file
+const endpointsFiles = ['./server.js'];      // Entry point to scan for routes
 
-module.exports = setupSwagger;
+swaggerAutogen(outputFile, endpointsFiles, doc);
+
