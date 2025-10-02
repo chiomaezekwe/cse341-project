@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const contactController = require('../controllers/contactController');
 
-// Routes
-// Add Swagger docs
-
 /**
  * @swagger
  * /contacts:
@@ -14,7 +11,6 @@ const contactController = require('../controllers/contactController');
  *       200:
  *         description: Success
  */
-
 router.get('/', contactController.getContacts);
 
 /**
@@ -26,16 +22,15 @@ router.get('/', contactController.getContacts);
  *       - in: path
  *         name: id
  *         required: true
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Contact found
  *       404:
  *         description: Contact not found
  */
-
 router.get('/:id', contactController.getContactById);
-
-// Add similar comments for POST, PUT, DELETE
 
 /**
  * @swagger
@@ -44,14 +39,13 @@ router.get('/:id', contactController.getContactById);
  *     summary: Create a new contact
  *     tags:
  *       - Contacts
- *     description: Create a new contact
  *     consumes:
  *       - application/json
  *     parameters:
  *       - in: body
  *         name: contact
- *         description: The contact to create
  *         required: true
+ *         description: The contact to create
  *         schema:
  *           type: object
  *           required:
@@ -83,46 +77,47 @@ router.get('/:id', contactController.getContactById);
  *       400:
  *         description: Invalid input
  */
-
 router.post('/', contactController.addContact);
 
 /**
  * @swagger
  * /contacts/{id}:
  *   put:
- *     description: Update an existing contact
+ *     summary: Update a contact
+ *     tags:
+ *       - Contacts
+ *     consumes:
+ *       - application/json
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Contact ID
+ *         type: string
+ *         description: The ID of the contact to update
+ *       - in: body
+ *         name: contact
+ *         required: true
+ *         description: Updated contact object
  *         schema:
- *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               firstName:
- *                 type: string
- *               lastName:
- *                 type: string
- *               email:
- *                 type: string
- *               favoriteColor:
- *                 type: string
- *               birthday:
- *                 type: string
- *                 format: date
+ *           type: object
+ *           properties:
+ *             firstName:
+ *               type: string
+ *             lastName:
+ *               type: string
+ *             email:
+ *               type: string
+ *             favoriteColor:
+ *               type: string
+ *             birthday:
+ *               type: string
+ *               format: date
  *     responses:
  *       200:
  *         description: Contact updated
  *       404:
  *         description: Contact not found
  */
-
 router.put('/:id', contactController.updateContact);
 
 /**
@@ -134,7 +129,6 @@ router.put('/:id', contactController.updateContact);
  *       - in: path
  *         name: id
  *         required: true
- *         description: Contact ID
  *         schema:
  *           type: string
  *     responses:
@@ -143,8 +137,6 @@ router.put('/:id', contactController.updateContact);
  *       404:
  *         description: Contact not found
  */
-
 router.delete('/:id', contactController.deleteContact);
-
 
 module.exports = router;
