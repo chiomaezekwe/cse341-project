@@ -8,7 +8,7 @@ const options = {
       version: '1.0.0',
       description: 'Swagger 2.0 documentation for a RESTful API used for managing book collection.',
     },
-    host: 'three41-project-bzcd.onrender.com',   // Change to Render URL "three41-project-bzcd.onrender.com" when deploying to Production, and on dev, use "localhost:8080". 
+    host: 'cse341-library-w7vq.onrender.com',   // Change to Render URL "cse341-library-w7vq.onrender.com" when deploying to Production, and on dev, use "localhost:8080". 
     basePath: '/api',         //  Your base route
     schemes: ['https'],         // Use "https" in Production on Render and "http" in dev 
   },
