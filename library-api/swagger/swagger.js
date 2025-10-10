@@ -6,7 +6,7 @@ const options = {
     info: {
       title: 'Library API',
       version: '1.0.0',
-      description: 'Swagger 2.0 documentation for a RESTful API used for managing book collection.',
+      description: 'Swagger 2.0 documentation for a REST API used for managing book collection.',
     },
     host: 'cse341-library-w7vq.onrender.com',   // Change to Render URL "cse341-library-w7vq.onrender.com" when deploying to Production, and on dev, use "localhost:8080". 
     basePath: '/api',         //  Your base route
