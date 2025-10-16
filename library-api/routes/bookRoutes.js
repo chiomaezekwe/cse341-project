@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const bookController = require('../controllers/bookController');
+const authMiddleware = require('../middleware/auth');
+
+//added lines 5 to  6
+const Book = require('../models/bookModel');
+const auth = require('../middleware/auth');
 
 // Validation middleware (simple example)
 const validateBook = (req, res, next) => {
@@ -10,6 +15,20 @@ const validateBook = (req, res, next) => {
   }
   next();
 };
+
+// added lines 17 to 28
+// Public Route
+router.get('/', async (req, res) => {
+  const books = await Book.find();
+  res.json(books);
+});
+
+// Protected Route
+router.post('/', auth, async (req, res) => {
+  const book = new Book(req.body);
+  await book.save();
+  res.status(201).json(book);
+});
 
 /**
  * @swagger
@@ -195,6 +214,58 @@ router.get('/title/:title', bookController.getBooksByTitle);
  */
 // Get books by author (partial match)
 router.get('/author/:author', bookController.getBooksByAuthor);
+
+//--- added new start
+
+/**
+ * @swagger
+ * /books:
+ *   get:
+ *     summary: Get all books
+ *     tags: [Books]
+ *     responses:
+ *       200:
+ *         description: List of books
+ */
+
+/**
+ * @swagger
+ * /books:
+ *   post:
+ *     summary: Add a new book
+ *     tags: [Books]
+ *     security:
+ *       - Bearer: []
+ *     requestBody:
+ *       description: Book details
+ *       required: true
+ *     parameters:
+ *       - in: body
+ *         name: book
+ *         description: Book object
+ *         required: true
+ *         schema:
+ *           type: object
+ *           required:
+ *             - title
+ *             - author
+ *           properties:
+ *             title:
+ *               type: string
+ *             author:
+ *               type: string
+ *             year:
+ *               type: integer
+ *     responses:
+ *       201:
+ *         description: Book created
+ *       401:
+ *         description: Unauthorized
+ */
+router.post('/', authMiddleware, bookController.createBook);
+//router.post('/', authMiddleware, addBookController);
+
+// --- added new end 
 
 module.exports = router;
 
