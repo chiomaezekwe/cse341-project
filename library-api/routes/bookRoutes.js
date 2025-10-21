@@ -154,7 +154,7 @@ router.delete('/:id', bookController.deleteBook);
 
 /**
  * @swagger
- * /books/id/{id}:
+ * /books/{id}:
  *   get:
  *     summary: Get a book by its ID
  *     parameters:
@@ -171,7 +171,7 @@ router.delete('/:id', bookController.deleteBook);
  *         description: Book not found
  */
 // Get book by ID
-router.get('/id/:id', bookController.getBookById);
+router.get('/:id', bookController.getBookById);
 
 /**
  * @swagger
@@ -233,34 +233,22 @@ router.get('/author/:author', bookController.getBooksByAuthor);
  * /books:
  *   post:
  *     summary: Add a new book
- *     tags: [Books]
- *     security:
- *       - Bearer: []
- *     requestBody:
- *       description: Book details
- *       required: true
+ *     tags:
+ *       - Books
+ *     consumes:
+ *       - application/json
  *     parameters:
  *       - in: body
  *         name: book
- *         description: Book object
+ *         description: Book to add
  *         required: true
  *         schema:
- *           type: object
- *           required:
- *             - title
- *             - author
- *           properties:
- *             title:
- *               type: string
- *             author:
- *               type: string
- *             year:
- *               type: integer
+ *           $ref: '#/definitions/BookCreate'
  *     responses:
  *       201:
  *         description: Book created
- *       401:
- *         description: Unauthorized
+ *       400:
+ *         description: Bad Request
  */
 router.post('/', authMiddleware, bookController.createBook);
 //router.post('/', authMiddleware, addBookController);

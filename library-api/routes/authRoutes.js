@@ -43,7 +43,7 @@ async function(accessToken, refreshToken, profile, done) {
  *     tags: [Auth]
  *     parameters:
  *       - in: body
- *         name: user
+ *         cname: user
  *         required: true
  *         schema:
  *           type: object

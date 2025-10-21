@@ -1,6 +1,6 @@
 const express = require('express');
-const Review = require('../models/reviewModel');
-const authenticateToken = require('../middleware/auth');
+const reviewController = require('../controllers/reviewController');
+const auth = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -13,7 +13,34 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/reviews:
+ * definitions:
+ *   Review:
+ *     type: object
+ *     properties:
+ *       _id:
+ *         type: string
+ *       userId:
+ *         type: string
+ *         description: ID of the user who posted the review
+ *       bookId:
+ *         type: string
+ *         description: ID of the book being reviewed
+ *       rating:
+ *         type: integer
+ *         format: int32
+ *       comment:
+ *         type: string
+ *       createdAt:
+ *         type: string
+ *         format: date-time
+ *       updatedAt:
+ *         type: string
+ *         format: date-time
+ */
+
+/**
+ * @swagger
+ * /reviews:
  *   get:
  *     summary: Get all reviews
  *     tags: [Reviews]
@@ -25,33 +52,26 @@ const router = express.Router();
  *           items:
  *             $ref: '#/definitions/Review'
  */
-router.get('/reviews', async (req, res) => {
-  try {
-    const reviews = await Review.find().populate('bookId userId');
-    res.json(reviews);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+router.get('/', reviewController.getAllReviews);
 
 /**
  * @swagger
- * /api/reviews:
+ * /reviews:
  *   post:
  *     summary: Create a new review
  *     tags: [Reviews]
  *     security:
- *       - bearerAuth: []
+ *       - Bearer: []
  *     parameters:
  *       - in: body
  *         name: review
- *         description: Review to add
  *         required: true
  *         schema:
  *           type: object
  *           required:
  *             - bookId
  *             - rating
+ *             - comment
  *           properties:
  *             bookId:
  *               type: string
@@ -67,25 +87,11 @@ router.get('/reviews', async (req, res) => {
  *       401:
  *         description: Unauthorized
  */
-router.post('/reviews', authenticateToken, async (req, res) => {
-  const { bookId, rating, comment } = req.body;
-  try {
-    const review = new Review({
-      bookId,
-      userId: req.user.id,
-      rating,
-      comment
-    });
-    await review.save();
-    res.status(201).json(review);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+router.post('/', auth, reviewController.createReview);
 
 /**
  * @swagger
- * /api/reviews/book/{bookId}:
+ * /reviews/book/{bookId}:
  *   get:
  *     summary: Get reviews for a specific book
  *     tags: [Reviews]
@@ -94,36 +100,27 @@ router.post('/reviews', authenticateToken, async (req, res) => {
  *         name: bookId
  *         required: true
  *         type: string
- *         description: ID of the book
  *     responses:
  *       200:
  *         description: Reviews retrieved successfully
  *       500:
  *         description: Server error
  */
-router.get('/book/:bookId', async (req, res) => {
-  try {
-    const reviews = await Review.find({ bookId: req.params.bookId });
-    res.json(reviews);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+router.get('/book/:bookId', reviewController.getReviewsByBook);
 
 /**
  * @swagger
- * /api/reviews/{id}:
+ * /reviews/{id}:
  *   delete:
  *     summary: Delete a review
  *     tags: [Reviews]
  *     security:
- *       - bearerAuth: []
+ *       - Bearer: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         type: string
- *         description: ID of the review to delete
  *     responses:
  *       200:
  *         description: Review deleted
@@ -134,20 +131,6 @@ router.get('/book/:bookId', async (req, res) => {
  *       500:
  *         description: Server error
  */
-router.delete('/:id', authenticateToken, async (req, res) => {
-  try {
-    const review = await Review.findById(req.params.id);
-    if (!review) return res.status(404).json({ error: 'Review not found' });
-
-    if (review.userId.toString() !== req.user.id) {
-      return res.status(403).json({ error: 'Not authorized to delete this review' });
-    }
-
-    await review.remove();
-    res.json({ message: 'Review deleted' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+router.delete('/:id', auth, reviewController.deleteReview);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 
 const options = {
   swaggerDefinition: {
-    swagger: '2.0', //  Required for Swagger 2.0
+    swagger: '2.0',
     info: {
       title: 'Library API',
       version: '1.0.0',
@@ -12,8 +12,6 @@ const options = {
     basePath: '/api',         //  Your base route
     schemes: ['http'],         // Use "https" in Production on Render and "http" in dev 
 
-    // added these lines 16 to 28
-    // Add this for JWT security
     securityDefinitions: {
       Bearer: {
         type: 'apiKey',
@@ -24,10 +22,42 @@ const options = {
       },
     },
 
-    // (Optional) Apply JWT globally
-    // security: [{ Bearer: [] }],    
+    security: [{ Bearer: [] }],
+
+    // Add this definitions block below security
+    definitions: {
+      Review: {
+        type: 'object',
+        properties: {
+          _id: { type: 'string' },
+          user: {
+            type: 'string',
+            description: 'ID of the user who posted the review',
+          },
+          restaurant: {
+            type: 'string',
+            description: 'ID of the restaurant being reviewed',
+          },
+          rating: {
+            type: 'integer',
+            format: 'int32',
+            description: 'Rating from 1 to 5',
+          },
+          comment: { type: 'string' },
+          createdAt: {
+            type: 'string',
+            format: 'date-time',
+          },
+          updatedAt: {
+            type: 'string',
+            format: 'date-time',
+          },
+        },
+      },
+    },
   },
-  apis: ['./routes/*.js'], // Path to route files
+
+  apis: ['./routes/*.js'], // Leave this as is
 };
 
 const swaggerSpec = swaggerJSDoc(options);
