@@ -16,20 +16,6 @@ const validateBook = (req, res, next) => {
   next();
 };
 
-// added lines 17 to 28
-// Public Route
-router.get('/', async (req, res) => {
-  const books = await Book.find();
-  res.json(books);
-});
-
-// Protected Route
-router.post('/', auth, async (req, res) => {
-  const book = new Book(req.body);
-  await book.save();
-  res.status(201).json(book);
-});
-
 /**
  * @swagger
  * definitions:
@@ -253,12 +239,7 @@ router.get('/author/:author', bookController.getBooksByAuthor);
 router.post('/', authMiddleware, bookController.createBook);
 //router.post('/', authMiddleware, addBookController);
 
-// --- added new end 
-
-module.exports = router;
-
-
-
+module.exports = router; 
 
 
 
